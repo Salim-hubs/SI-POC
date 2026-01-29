@@ -26,3 +26,5 @@ Les données sont fictives et utilisées uniquement à des fins pédagogiques.
 ## 🛠️ Technologies
 - [ex: HTML / CSS / JS / React / Node / Firebase / etc.]
 
+## Comment tester ?
+Simplement lancer le fichier index.html :)
