@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verger du Coin - Réserver mon panier</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="client-styles.css">
+</head>
+<body class="client-page">
+    <!-- Header Client -->
+    <header class="client-header">
+        <div class="client-header-content">
+            <a href="reservation.html" class="client-logo">
+                <span class="logo-icon">🍎</span>
+                <span class="logo-text">Verger du Coin</span>
+            </a>
+            <nav class="client-nav">
+                <a href="reservation.html" class="active">Réserver</a>
+                <a href="abonnements.html">Abonnements</a>
+                <a href="inscription.html">Fidélité</a>
+            </nav>
+            <a href="index.html" class="btn-admin">Espace Pro</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Réservez votre panier</h1>
+            <p>Commandez en ligne, retirez à la ferme ou au marché. Produits frais, locaux et de saison.</p>
+        </div>
+        <div class="hero-badges">
+            <span class="hero-badge">🌱 Agriculture raisonnée</span>
+            <span class="hero-badge">📍 Circuit court</span>
+            <span class="hero-badge">🕐 Retrait en 24h</span>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="client-main">
+        <!-- Product Selection -->
+        <section class="products-section">
+            <h2>Nos produits disponibles</h2>
+            <p class="section-subtitle">Sélectionnez vos produits et composez votre panier personnalisé</p>
+
+            <div class="products-grid" id="products-grid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Cart Sidebar -->
+        <aside class="cart-sidebar" id="cart-sidebar">
+            <div class="cart-header">
+                <h3>🛒 Mon panier</h3>
+                <button class="btn-clear-cart" onclick="clearCart()">Vider</button>
+            </div>
+
+            <div class="cart-items" id="cart-items">
+                <p class="cart-empty">Votre panier est vide</p>
+            </div>
+
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total</span>
+                    <span id="cart-total">0,00 €</span>
+                </div>
+                <button class="btn btn-primary btn-full" onclick="showCheckoutModal()">
+                    Réserver mon panier
+                </button>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-content checkout-modal">
+            <button class="modal-close" onclick="closeCheckoutModal()">&times;</button>
+
+            <div class="checkout-steps">
+                <div class="step active" data-step="1">
+                    <span class="step-number">1</span>
+                    <span class="step-label">Retrait</span>
+                </div>
+                <div class="step" data-step="2">
+                    <span class="step-number">2</span>
+                    <span class="step-label">Coordonnées</span>
+                </div>
+                <div class="step" data-step="3">
+                    <span class="step-number">3</span>
+                    <span class="step-label">Confirmation</span>
+                </div>
+            </div>
+
+            <!-- Step 1: Pickup -->
+            <div class="checkout-step-content" id="step-1">
+                <h3>Où souhaitez-vous retirer votre commande ?</h3>
+
+                <div class="pickup-options">
+                    <label class="pickup-option">
+                        <input type="radio" name="pickup" value="kiosque" checked>
+                        <div class="pickup-card">
+                            <span class="pickup-icon">🏪</span>
+                            <div class="pickup-info">
+                                <strong>Kiosque à la ferme</strong>
+                                <span>Chemin du Verger, 69000 Lyon</span>
+                                <span class="pickup-hours">Lun-Sam : 9h-18h</span>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="pickup-option">
+                        <input type="radio" name="pickup" value="marche-samedi">
+                        <div class="pickup-card">
+                            <span class="pickup-icon">🛒</span>
+                            <div class="pickup-info">
+                                <strong>Marché du Samedi</strong>
+                                <span>Place Bellecour, Lyon 2e</span>
+                                <span class="pickup-hours">Samedi : 7h-13h</span>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="pickup-option">
+                        <input type="radio" name="pickup" value="marche-mercredi">
+                        <div class="pickup-card">
+                            <span class="pickup-icon">🛒</span>
+                            <div class="pickup-info">
+                                <strong>Marché du Mercredi</strong>
+                                <span>Place Carnot, Lyon 2e</span>
+                                <span class="pickup-hours">Mercredi : 7h-13h</span>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="form-group" style="margin-top: 24px;">
+                    <label class="form-label">Date de retrait souhaitée</label>
+                    <input type="date" class="form-input" id="pickup-date" required>
+                </div>
+
+                <div class="checkout-actions">
+                    <button class="btn btn-primary" onclick="goToStep(2)">Continuer</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Contact Info -->
+            <div class="checkout-step-content" id="step-2" style="display: none;">
+                <h3>Vos coordonnées</h3>
+
+                <form id="contact-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Prénom *</label>
+                            <input type="text" class="form-input" id="client-prenom" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nom *</label>
+                            <input type="text" class="form-input" id="client-nom" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input type="email" class="form-input" id="client-email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Téléphone *</label>
+                        <input type="tel" class="form-input" id="client-tel" placeholder="06 XX XX XX XX" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Remarques (optionnel)</label>
+                        <textarea class="form-input" id="client-remarques" rows="2" placeholder="Allergies, préférences..."></textarea>
+                    </div>
+
+                    <div class="rgpd-consent">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rgpd-consent" required>
+                            <span>J'accepte que mes données soient utilisées pour le traitement de ma commande. <a href="#" onclick="showRGPDInfo()">En savoir plus</a></span>
+                        </label>
+                    </div>
+                </form>
+
+                <div class="checkout-actions">
+                    <button class="btn btn-secondary" onclick="goToStep(1)">Retour</button>
+                    <button class="btn btn-primary" onclick="goToStep(3)">Confirmer</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Confirmation -->
+            <div class="checkout-step-content" id="step-3" style="display: none;">
+                <div class="confirmation-success">
+                    <div class="success-icon">✓</div>
+                    <h3>Réservation confirmée !</h3>
+                    <p>Votre commande <strong id="order-number">#1042</strong> a été enregistrée.</p>
+                </div>
+
+                <div class="confirmation-details">
+                    <div class="detail-card">
+                        <span class="detail-icon">📍</span>
+                        <div>
+                            <strong>Lieu de retrait</strong>
+                            <span id="confirm-pickup">Kiosque à la ferme</span>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <span class="detail-icon">📅</span>
+                        <div>
+                            <strong>Date</strong>
+                            <span id="confirm-date">-</span>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <span class="detail-icon">💰</span>
+                        <div>
+                            <strong>Total à régler sur place</strong>
+                            <span id="confirm-total">0,00 €</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="confirmation-notice">
+                    <p>📧 Un email de confirmation vous a été envoyé.</p>
+                    <p>💳 Le paiement s'effectue sur place lors du retrait.</p>
+                </div>
+
+                <div class="checkout-actions">
+                    <button class="btn btn-primary" onclick="finishOrder()">Terminer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RGPD Modal -->
+    <div class="modal-overlay" id="rgpd-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeRGPDModal()">&times;</button>
+            <h3>🔒 Protection de vos données</h3>
+            <div class="rgpd-content">
+                <p><strong>Responsable du traitement :</strong> Verger du Coin - SARL</p>
+                <p><strong>Finalité :</strong> Traitement de votre commande et communication relative à celle-ci.</p>
+                <p><strong>Durée de conservation :</strong> 1 an après votre dernière commande.</p>
+                <p><strong>Vos droits :</strong></p>
+                <ul>
+                    <li>Accès à vos données personnelles</li>
+                    <li>Rectification de vos données</li>
+                    <li>Suppression de vos données (droit à l'oubli)</li>
+                    <li>Opposition au traitement</li>
+                </ul>
+                <p>Contact : contact@vergerducoin.fr</p>
+            </div>
+            <button class="btn btn-primary" onclick="closeRGPDModal()">J'ai compris</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="client-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>🍎 Verger du Coin</h4>
+                <p>Exploitation familiale depuis 1985<br>Agriculture raisonnée</p>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📍 Chemin du Verger, 69000 Lyon</p>
+                <p>📞 04 XX XX XX XX</p>
+                <p>✉️ contact@vergerducoin.fr</p>
+            </div>
+            <div class="footer-section">
+                <h4>Horaires Kiosque</h4>
+                <p>Lundi - Samedi : 9h - 18h</p>
+                <p>Dimanche : Fermé</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Verger du Coin - <a href="#">Mentions légales</a> - <a href="#">Politique de confidentialité</a></p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        // Cart state
+        let cart = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initProductsGrid();
+            setMinPickupDate();
+        });
+
+        function initProductsGrid() {
+            const grid = document.getElementById('products-grid');
+            if (!grid) return;
+
+            const produitsDisponibles = PRODUITS.filter(p => p.actif && p.stock > 0);
+
+            grid.innerHTML = produitsDisponibles.map(p => {
+                const stockClass = p.stock <= p.seuilCritique ? 'low-stock' : '';
+                const stockText = p.stock <= p.seuilCritique ? 'Stock limité' : `${p.stock} ${p.unite} disponibles`;
+
+                return `
+                    <div class="product-card ${stockClass}">
+                        <div class="product-image">
+                            <span class="product-emoji">${getProductEmoji(p.categorie, p.nom)}</span>
+                            ${p.stock <= p.seuilCritique ? '<span class="stock-badge">Stock limité</span>' : ''}
+                        </div>
+                        <div class="product-info">
+                            <h3>${p.nom}</h3>
+                            <span class="product-category">${p.categorie}</span>
+                            <div class="product-price">${p.prix.toFixed(2)} € <span class="price-unit">/ ${p.unite}</span></div>
+                            <span class="product-stock">${stockText}</span>
+                        </div>
+                        <div class="product-actions">
+                            <div class="quantity-selector">
+                                <button onclick="decrementQty(${p.id})">-</button>
+                                <input type="number" id="qty-${p.id}" value="1" min="1" max="${p.stock}">
+                                <button onclick="incrementQty(${p.id}, ${p.stock})">+</button>
+                            </div>
+                            <button class="btn btn-primary btn-add" onclick="addToCart(${p.id})">
+                                Ajouter
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getProductEmoji(categorie, nom) {
+            const emojis = {
+                'Pommes': '🍎',
+                'Poires': '🍐',
+                'Tomates': '🍅',
+                'Salades': '🥬',
+                'Carottes': '🥕',
+                'Courgettes': '🥒',
+                'Oignons': '🧅',
+                'Pommes de terre': '🥔',
+                'Fraises': '🍓',
+                'Cerises': '🍒',
+                'Panier': '🧺',
+                'Jus': '🧃',
+                'Confiture': '🫙'
+            };
+
+            for (const [key, emoji] of Object.entries(emojis)) {
+                if (nom.toLowerCase().includes(key.toLowerCase())) return emoji;
+            }
+
+            if (categorie === 'Fruits') return '🍎';
+            if (categorie === 'Légumes') return '🥬';
+            if (categorie === 'Paniers') return '🧺';
+            if (categorie === 'Transformés') return '🫙';
+            return '🌱';
+        }
+
+        function incrementQty(productId, maxStock) {
+            const input = document.getElementById(`qty-${productId}`);
+            if (parseInt(input.value) < maxStock) {
+                input.value = parseInt(input.value) + 1;
+            }
+        }
+
+        function decrementQty(productId) {
+            const input = document.getElementById(`qty-${productId}`);
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+
+        function addToCart(productId) {
+            const product = PRODUITS.find(p => p.id === productId);
+            const qty = parseInt(document.getElementById(`qty-${productId}`).value);
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.qty += qty;
+            } else {
+                cart.push({
+                    id: productId,
+                    nom: product.nom,
+                    prix: product.prix,
+                    unite: product.unite,
+                    qty: qty
+                });
+            }
+
+            updateCartDisplay();
+            showAddedNotification(product.nom);
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartDisplay();
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="cart-empty">Votre panier est vide</p>';
+                cartTotal.textContent = '0,00 €';
+                return;
+            }
+
+            let total = 0;
+            cartItems.innerHTML = cart.map(item => {
+                const itemTotal = item.prix * item.qty;
+                total += itemTotal;
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <strong>${item.nom}</strong>
+                            <span>${item.qty} ${item.unite} × ${item.prix.toFixed(2)} €</span>
+                        </div>
+                        <div class="cart-item-actions">
+                            <span class="cart-item-total">${itemTotal.toFixed(2)} €</span>
+                            <button class="btn-remove" onclick="removeFromCart(${item.id})">×</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            cartTotal.textContent = total.toFixed(2) + ' €';
+        }
+
+        function showAddedNotification(productName) {
+            const notification = document.createElement('div');
+            notification.className = 'notification success';
+            notification.textContent = `${productName} ajouté au panier`;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        }
+
+        function showCheckoutModal() {
+            if (cart.length === 0) {
+                alert('Votre panier est vide');
+                return;
+            }
+            document.getElementById('checkout-modal').classList.add('active');
+            goToStep(1);
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.remove('active');
+        }
+
+        function goToStep(step) {
+            // Validate current step before proceeding
+            if (step === 2) {
+                const pickupDate = document.getElementById('pickup-date').value;
+                if (!pickupDate) {
+                    alert('Veuillez sélectionner une date de retrait');
+                    return;
+                }
+            }
+
+            if (step === 3) {
+                const prenom = document.getElementById('client-prenom').value;
+                const nom = document.getElementById('client-nom').value;
+                const email = document.getElementById('client-email').value;
+                const tel = document.getElementById('client-tel').value;
+                const consent = document.getElementById('rgpd-consent').checked;
+
+                if (!prenom || !nom || !email || !tel) {
+                    alert('Veuillez remplir tous les champs obligatoires');
+                    return;
+                }
+                if (!consent) {
+                    alert('Veuillez accepter les conditions de traitement des données');
+                    return;
+                }
+
+                // Generate confirmation
+                generateConfirmation();
+            }
+
+            // Update step display
+            document.querySelectorAll('.checkout-step-content').forEach(el => el.style.display = 'none');
+            document.getElementById(`step-${step}`).style.display = 'block';
+
+            document.querySelectorAll('.checkout-steps .step').forEach(el => {
+                el.classList.remove('active', 'completed');
+                const stepNum = parseInt(el.dataset.step);
+                if (stepNum < step) el.classList.add('completed');
+                if (stepNum === step) el.classList.add('active');
+            });
+        }
+
+        function generateConfirmation() {
+            const orderNum = Math.floor(1040 + Math.random() * 100);
+            document.getElementById('order-number').textContent = `#${orderNum}`;
+
+            const pickupOption = document.querySelector('input[name="pickup"]:checked');
+            const pickupLabel = pickupOption.parentElement.querySelector('strong').textContent;
+            document.getElementById('confirm-pickup').textContent = pickupLabel;
+
+            const pickupDate = new Date(document.getElementById('pickup-date').value);
+            document.getElementById('confirm-date').textContent = pickupDate.toLocaleDateString('fr-FR', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long'
+            });
+
+            const total = cart.reduce((sum, item) => sum + (item.prix * item.qty), 0);
+            document.getElementById('confirm-total').textContent = total.toFixed(2) + ' €';
+        }
+
+        function finishOrder() {
+            // Récupérer les infos client
+            const clientPrenom = document.getElementById('client-prenom').value;
+            const clientNom = document.getElementById('client-nom').value;
+            const clientEmail = document.getElementById('client-email').value;
+            const clientTel = document.getElementById('client-tel').value;
+            const pickupOption = document.querySelector('input[name="pickup"]:checked');
+            const pickupDate = document.getElementById('pickup-date').value;
+
+            // Créer la nouvelle commande
+            const newOrderId = COMMANDES.length > 0 ? Math.max(...COMMANDES.map(c => c.id)) + 1 : 1001;
+            const total = cart.reduce((sum, item) => sum + (item.prix * item.qty), 0);
+
+            const newCommande = {
+                id: newOrderId,
+                client: `${clientPrenom} ${clientNom}`,
+                tel: clientTel,
+                email: clientEmail,
+                date: pickupDate,
+                canal: pickupOption ? pickupOption.value : 'kiosque',
+                items: cart.map(item => ({
+                    nom: item.nom,
+                    qty: item.qty,
+                    prix: item.prix
+                })),
+                total: total,
+                status: 'pending',
+                notes: ''
+            };
+
+            // Ajouter la commande
+            COMMANDES.unshift(newCommande);
+
+            // Mettre à jour les stocks pour chaque produit du panier
+            cart.forEach(item => {
+                const produit = PRODUITS.find(p => p.id === item.id);
+                if (produit) {
+                    produit.stock -= item.qty;
+
+                    // Enregistrer le mouvement de stock
+                    MOUVEMENTS_STOCK.push({
+                        id: MOUVEMENTS_STOCK.length + 1,
+                        date: new Date().toISOString().split('T')[0],
+                        type: "sortie",
+                        produitId: item.id,
+                        quantite: item.qty,
+                        motif: `Commande #${newOrderId}`,
+                        source: "web"
+                    });
+                }
+            });
+
+            // Sauvegarder les modifications dans localStorage
+            saveAllData();
+
+            closeCheckoutModal();
+            cart = [];
+            updateCartDisplay();
+            initProductsGrid(); // Rafraîchir l'affichage des stocks
+
+            const notification = document.createElement('div');
+            notification.className = 'notification success';
+            notification.textContent = `Commande #${newOrderId} enregistrée ! Rendez-vous le ${new Date(pickupDate).toLocaleDateString('fr-FR')}`;
+            document.body.appendChild(notification);
+
+            setTimeout(() => notification.remove(), 4000);
+        }
+
+        function setMinPickupDate() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const minDate = tomorrow.toISOString().split('T')[0];
+            document.getElementById('pickup-date').setAttribute('min', minDate);
+            document.getElementById('pickup-date').value = minDate;
+        }
+
+        function showRGPDInfo() {
+            event.preventDefault();
+            document.getElementById('rgpd-modal').classList.add('active');
+        }
+
+        function closeRGPDModal() {
+            document.getElementById('rgpd-modal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verger du Coin - Gestion des Commandes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- barer de coté -->
+        <nav class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">🍎</span>
+                <span class="logo-text">Verger du Coin</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html"><span class="nav-icon">🏠</span> Kiosque</a>
+                </li>
+                <li class="nav-item">
+                    <a href="vente.html"><span class="nav-icon">🛒</span> Nouvelle Vente</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="commandes.html"><span class="nav-icon">📋</span> Commandes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="stocks.html"><span class="nav-icon">📦</span> Stocks</a>
+                </li>
+                <li class="nav-item">
+                    <a href="clients.html"><span class="nav-icon">👥</span> Clients</a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html"><span class="nav-icon">📊</span> Statistiques</a>
+                </li>
+            </ul>
+            <div style="padding: 20px; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1);">
+                <a href="reservation.html" class="btn btn-secondary btn-full" style="font-size: 12px;">
+                    🌐 Site Client
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>📋 Gestion des Commandes</h1>
+                <div class="header-actions">
+                    <select class="form-select" id="filter-status" style="width: auto;" onchange="filterOrders()">
+                        <option value="all">Toutes les commandes</option>
+                        <option value="pending">À préparer</option>
+                        <option value="ready">Prêtes</option>
+                        <option value="completed">Retirées</option>
+                    </select>
+                    <select class="form-select" id="filter-canal" style="width: auto;" onchange="filterOrders()">
+                        <option value="all">Tous les canaux</option>
+                        <option value="kiosque">Kiosque</option>
+                        <option value="marche-samedi">Marché Samedi</option>
+                        <option value="marche-mercredi">Marché Mercredi</option>
+                    </select>
+                </div>
+            </header>
+
+            <!-- KPIs -->
+            <section class="kpi-section">
+                <div class="kpi-card kpi-orange">
+                    <div class="kpi-icon">⏳</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="kpi-pending">8</span>
+                        <span class="kpi-label">À préparer</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-blue">
+                    <div class="kpi-icon">✅</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="kpi-ready">3</span>
+                        <span class="kpi-label">Prêtes à retirer</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-green">
+                    <div class="kpi-icon">📅</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="kpi-today">5</span>
+                        <span class="kpi-label">Retraits aujourd'hui</span>
+                    </div>
+                </div>
+                <div class="kpi-card" style="background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);">
+                    <div class="kpi-icon" style="filter: grayscale(1) brightness(10);">🔄</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" style="color: white;" id="kpi-subscriptions">12</span>
+                        <span class="kpi-label" style="color: rgba(255,255,255,0.8);">Abonnements actifs</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Orders Table -->
+            <section class="stock-table-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="margin: 0; font-family: var(--font-display); color: var(--forest-dark);">Commandes du jour</h3>
+                    <span style="font-size: 13px; color: var(--gray-500);" id="orders-count">11 commandes</span>
+                </div>
+                <table class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>N° Commande</th>
+                            <th>Client</th>
+                            <th>Date retrait</th>
+                            <th>Canal</th>
+                            <th>Produits</th>
+                            <th>Total</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                        <!-- JAVASCRIPT s'en occupe ici aussi  -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Partie inscription -->
+            <section class="stock-table-container" style="margin-top: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="margin: 0; font-family: var(--font-display); color: var(--forest-dark);">🔄 Paniers abonnement de la semaine</h3>
+                    <span style="font-size: 13px; color: var(--gray-500);">12 paniers à préparer</span>
+                </div>
+                <table class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Formule</th>
+                            <th>Jour retrait</th>
+                            <th>Lieu</th>
+                            <th>Préférences</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subscriptions-tbody">
+                        <!-- JAVASCRIPT ENCore -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Info Box -->
+            <section style="margin-top: 24px; padding: 20px; background: #E3F2FD; border-radius: 12px; border-left: 4px solid #2196F3;">
+                <h3 style="margin-bottom: 10px; color: #1565C0;">ℹ️ Flux Click & Collect</h3>
+                <p style="font-size: 14px; color: #666; line-height: 1.8;">
+                    <strong>1.</strong> Le client réserve en ligne → la commande apparaît ici en "À préparer"<br>
+                    <strong>2.</strong> Vous préparez le panier → passez le statut à "Prêt"<br>
+                    <strong>3.</strong> Le client récupère → passez à "Retiré" et enregistrez la vente
+                </p>
+                <div style="margin-top: 15px; padding: 12px; background: white; border-radius: 8px; display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 24px;">💡</span>
+                    <span style="font-size: 13px; color: #666;">
+                        <strong>Intégration automatique :</strong> Une fois la commande marquée "Retirée", le stock est automatiquement décrémenté et la vente comptabilisée.
+                    </span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div class="modal-overlay" id="order-modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="modal-close" onclick="closeOrderModal()">&times;</button>
+            <h3 style="font-family: var(--font-display); color: var(--forest-dark); margin-bottom: 24px;">
+                Commande <span id="modal-order-id">#1042</span>
+            </h3>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+                <div style="background: var(--cream); padding: 16px; border-radius: 12px;">
+                    <strong style="font-size: 12px; color: var(--gray-500); text-transform: uppercase;">Client</strong>
+                    <p style="font-size: 16px; font-weight: 600; color: var(--gray-800); margin-top: 4px;" id="modal-client">Marie Durant</p>
+                    <p style="font-size: 13px; color: var(--gray-500);" id="modal-client-contact">06 78 90 12 34</p>
+                </div>
+                <div style="background: var(--cream); padding: 16px; border-radius: 12px;">
+                    <strong style="font-size: 12px; color: var(--gray-500); text-transform: uppercase;">Retrait</strong>
+                    <p style="font-size: 16px; font-weight: 600; color: var(--gray-800); margin-top: 4px;" id="modal-pickup">Kiosque</p>
+                    <p style="font-size: 13px; color: var(--gray-500);" id="modal-date">Samedi 27 janvier</p>
+                </div>
+            </div>
+
+            <div style="background: var(--white); border: 2px solid var(--gray-100); border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+                <strong style="font-size: 14px; color: var(--forest-dark);">Détail du panier</strong>
+                <ul id="modal-items" style="list-style: none; margin-top: 12px;">
+                    <!-- Items will be populated -->
+                </ul>
+                <div style="border-top: 2px solid var(--gray-100); margin-top: 12px; padding-top: 12px; display: flex; justify-content: space-between;">
+                    <strong>Total</strong>
+                    <strong style="color: var(--forest); font-size: 18px;" id="modal-total">23,50 €</strong>
+                </div>
+            </div>
+
+            <div id="modal-notes" style="background: var(--honey-glow); padding: 16px; border-radius: 12px; margin-bottom: 24px; display: none;">
+                <strong style="font-size: 12px; color: var(--bark);">📝 Notes client</strong>
+                <p style="font-size: 14px; color: var(--gray-700); margin-top: 4px;" id="modal-notes-text"></p>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+                <button class="btn btn-secondary" onclick="closeOrderModal()" style="flex: 1;">Fermer</button>
+                <button class="btn btn-primary" id="modal-action-btn" onclick="updateOrderStatus()" style="flex: 2;">
+                    ✓ Marquer comme prêt
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+        // COMMANDES et ABONNEMENTS sont maintenant chargés depuis data.js 
+        // avec persistance via localStorage
+
+        let currentOrderId = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderOrders();
+            renderSubscriptions();
+            updateKPIs();
+        });
+
+        function renderOrders() {
+            const tbody = document.getElementById('orders-tbody');
+            const statusFilter = document.getElementById('filter-status').value;
+            const canalFilter = document.getElementById('filter-canal').value;
+
+            let filtered = COMMANDES;
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(c => c.status === statusFilter);
+            }
+            if (canalFilter !== 'all') {
+                filtered = filtered.filter(c => c.canal === canalFilter);
+            }
+
+            tbody.innerHTML = filtered.map(c => {
+                const statusBadge = getStatusBadge(c.status);
+                const canalLabel = getCanalLabel(c.canal);
+                const itemsPreview = c.items.map(i => `${i.qty}x ${i.nom}`).join(', ');
+                const dateFormatted = new Date(c.date).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
+
+                return `
+                    <tr>
+                        <td><strong>#${c.id}</strong></td>
+                        <td>
+                            <div style="font-weight: 500;">${c.client}</div>
+                            <div style="font-size: 12px; color: var(--gray-500);">${c.tel}</div>
+                        </td>
+                        <td>${dateFormatted}</td>
+                        <td>${canalLabel}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${itemsPreview}">${itemsPreview}</td>
+                        <td><strong>${c.total.toFixed(2)} €</strong></td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary" onclick="openOrderModal(${c.id})">Détail</button>
+                            ${c.status === 'pending' ? `<button class="btn btn-sm btn-primary" onclick="quickStatusUpdate(${c.id}, 'ready')">Prêt</button>` : ''}
+                            ${c.status === 'ready' ? `<button class="btn btn-sm btn-success" onclick="quickStatusUpdate(${c.id}, 'completed')">Retiré</button>` : ''}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            document.getElementById('orders-count').textContent = `${filtered.length} commande${filtered.length > 1 ? 's' : ''}`;
+        }
+
+        function renderSubscriptions() {
+            const tbody = document.getElementById('subscriptions-tbody');
+
+            tbody.innerHTML = ABONNEMENTS.map(a => {
+                const statusBadge = a.status === 'ready' ? '<span class="badge badge-green">Prêt</span>' : '<span class="badge badge-orange">À préparer</span>';
+                const formuleBadge = a.formule === 'Famille' ? '<span class="badge badge-blue">Famille - 25€</span>' :
+                                    a.formule === 'Solo' ? '<span class="badge badge-green">Solo - 12€</span>' :
+                                    '<span class="badge badge-orange">Gourmand - 38€</span>';
+
+                return `
+                    <tr>
+                        <td><strong>${a.client}</strong></td>
+                        <td>${formuleBadge}</td>
+                        <td>${a.jour}</td>
+                        <td>${a.lieu}</td>
+                        <td>${a.preferences || '-'}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            ${a.status === 'pending' ? `<button class="btn btn-sm btn-primary" onclick="markSubReady(${a.id})">Prêt</button>` : ''}
+                            ${a.status === 'ready' ? `<button class="btn btn-sm btn-success" onclick="markSubCompleted(${a.id})">Retiré</button>` : ''}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function getStatusBadge(status) {
+            switch(status) {
+                case 'pending': return '<span class="badge badge-orange">À préparer</span>';
+                case 'ready': return '<span class="badge badge-blue">Prêt</span>';
+                case 'completed': return '<span class="badge badge-green">Retiré</span>';
+                default: return '';
+            }
+        }
+
+        function getCanalLabel(canal) {
+            switch(canal) {
+                case 'kiosque': return '🏪 Kiosque';
+                case 'marche-samedi': return '🛒 Marché Sam.';
+                case 'marche-mercredi': return '🛒 Marché Mer.';
+                default: return canal;
+            }
+        }
+
+        function filterOrders() {
+            renderOrders();
+        }
+
+        function openOrderModal(orderId) {
+            const order = COMMANDES.find(c => c.id === orderId);
+            if (!order) return;
+
+            currentOrderId = orderId;
+
+            document.getElementById('modal-order-id').textContent = `#${order.id}`;
+            document.getElementById('modal-client').textContent = order.client;
+            document.getElementById('modal-client-contact').textContent = `${order.tel} • ${order.email}`;
+            document.getElementById('modal-pickup').textContent = getCanalLabel(order.canal).replace(/🏪|🛒/g, '').trim();
+            document.getElementById('modal-date').textContent = new Date(order.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+            document.getElementById('modal-total').textContent = order.total.toFixed(2) + ' €';
+
+            document.getElementById('modal-items').innerHTML = order.items.map(item => `
+                <li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--gray-100);">
+                    <span>${item.qty}x ${item.nom}</span>
+                    <span style="color: var(--gray-500);">${(item.qty * item.prix).toFixed(2)} €</span>
+                </li>
+            `).join('');
+
+            if (order.notes) {
+                document.getElementById('modal-notes').style.display = 'block';
+                document.getElementById('modal-notes-text').textContent = order.notes;
+            } else {
+                document.getElementById('modal-notes').style.display = 'none';
+            }
+
+            // Update action button
+            const actionBtn = document.getElementById('modal-action-btn');
+            if (order.status === 'pending') {
+                actionBtn.textContent = '✓ Marquer comme prêt';
+                actionBtn.className = 'btn btn-primary';
+                actionBtn.style.flex = '2';
+            } else if (order.status === 'ready') {
+                actionBtn.textContent = '✓ Marquer comme retiré';
+                actionBtn.className = 'btn btn-success';
+                actionBtn.style.flex = '2';
+            } else {
+                actionBtn.style.display = 'none';
+            }
+
+            document.getElementById('order-modal').classList.add('active');
+        }
+
+        function closeOrderModal() {
+            document.getElementById('order-modal').classList.remove('active');
+            currentOrderId = null;
+        }
+
+        function updateOrderStatus() {
+            if (!currentOrderId) return;
+
+            const order = COMMANDES.find(c => c.id === currentOrderId);
+            if (order.status === 'pending') {
+                order.status = 'ready';
+                showNotification(`Commande #${order.id} marquée comme prête`);
+            } else if (order.status === 'ready') {
+                order.status = 'completed';
+                showNotification(`Commande #${order.id} retirée - Stock mis à jour`);
+            }
+
+            saveAllData(); // Sauvegarder les modifications
+            closeOrderModal();
+            renderOrders();
+            updateKPIs();
+        }
+
+        function quickStatusUpdate(orderId, newStatus) {
+            const order = COMMANDES.find(c => c.id === orderId);
+            if (order) {
+                order.status = newStatus;
+                if (newStatus === 'completed') {
+                    showNotification(`Commande #${orderId} retirée - Stock mis à jour`);
+                } else {
+                    showNotification(`Commande #${orderId} marquée comme prête`);
+                }
+                saveAllData(); // Sauvegarder les modifications
+                renderOrders();
+                updateKPIs();
+            }
+        }
+
+        function markSubReady(subId) {
+            const sub = ABONNEMENTS.find(a => a.id === subId);
+            if (sub) {
+                sub.status = 'ready';
+                saveAllData();
+                showNotification(`Panier ${sub.formule} de ${sub.client} prêt`);
+                renderSubscriptions();
+            }
+        }
+
+        function markSubCompleted(subId) {
+            const sub = ABONNEMENTS.find(a => a.id === subId);
+            if (sub) {
+                sub.status = 'completed';
+                saveAllData();
+                showNotification(`Panier retiré par ${sub.client} - Stock mis à jour`);
+                renderSubscriptions();
+            }
+        }
+
+        function updateKPIs() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('kpi-pending').textContent = COMMANDES.filter(c => c.status === 'pending').length;
+            document.getElementById('kpi-ready').textContent = COMMANDES.filter(c => c.status === 'ready').length;
+            document.getElementById('kpi-today').textContent = COMMANDES.filter(c => c.date === today).length;
+            document.getElementById('kpi-subscriptions').textContent = ABONNEMENTS.length;
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification success';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+    </script>
+
+    <style>
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--gray-100);
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--leaf) 0%, var(--forest-light) 100%);
+            color: var(--white);
+        }
+    </style>
+</body>
+</html>

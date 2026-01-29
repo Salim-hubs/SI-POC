@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verger du Coin - Clients</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">🍎</span>
+                <span class="logo-text">Verger du Coin</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+                </li>
+                <li class="nav-item">
+                    <a href="vente.html"><span class="nav-icon">🛒</span> Nouvelle Vente</a>
+                </li>
+                <li class="nav-item">
+                    <a href="commandes.html"><span class="nav-icon">📋</span> Commandes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="stocks.html"><span class="nav-icon">📦</span> Stocks</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="clients.html"><span class="nav-icon">👥</span> Clients</a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html"><span class="nav-icon">📊</span> Statistiques</a>
+                </li>
+            </ul>
+            <div style="padding: 20px; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1);">
+                <a href="reservation.html" class="btn btn-secondary btn-full" style="font-size: 12px; background: rgba(255,255,255,0.1); border: none; color: white;">
+                    🌐 Site Client
+                </a>
+            </div>
+        </nav>
+
+        <!-- content de la page princip -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>👥 Gestion des Clients Fidèles</h1>
+                <div class="header-actions">
+                    <input type="text" class="search-input" placeholder="Rechercher un client..." id="search-client">
+                </div>
+            </header>
+
+            <!-- Client KPIs -->
+            <section class="kpi-section">
+                <div class="kpi-card kpi-green">
+                    <div class="kpi-icon">👥</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="total-clients">5</span>
+                        <span class="kpi-label">Clients inscrits</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-blue">
+                    <div class="kpi-icon">🔄</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="abonnes">2</span>
+                        <span class="kpi-label">Abonnés paniers</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-orange">
+                    <div class="kpi-icon">⭐</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="total-points">645</span>
+                        <span class="kpi-label">Points fidélité cumulés</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Clients Table -->
+            <section class="stock-table-container">
+                <table class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Points fidélité</th>
+                            <th>Abonnement</th>
+                            <th>RGPD</th>
+                            <th>Inscrit le</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clients-tbody">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- RGPD Info Box -->
+            <section style="margin-top: 24px; padding: 20px; background: #E8F5E9; border-radius: 12px; border-left: 4px solid #4CAF50;">
+                <h3 style="margin-bottom: 10px; color: #2E7D32;">🔒 Conformité RGPD</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 14px; color: #666;">
+                    <div>
+                        <strong>✓ Consentement explicite</strong><br>
+                        <span style="font-size: 12px;">Chaque client a validé son inscription</span>
+                    </div>
+                    <div>
+                        <strong>✓ Droit de modification</strong><br>
+                        <span style="font-size: 12px;">Le client peut modifier ses données</span>
+                    </div>
+                    <div>
+                        <strong>✓ Droit à l'oubli</strong><br>
+                        <span style="font-size: 12px;">Suppression sur demande</span>
+                    </div>
+                    <div>
+                        <strong>✓ Durée limitée</strong><br>
+                        <span style="font-size: 12px;">1 an max pour contacts inactifs</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initClientsTable();
+            updateClientKPIs();
+            initClientSearch();
+        });
+
+        function initClientsTable() {
+            const tbody = document.getElementById('clients-tbody');
+            if (!tbody) return;
+
+            tbody.innerHTML = CLIENTS.map(c => `
+                <tr>
+                    <td><strong>${c.prenom} ${c.nom}</strong></td>
+                    <td>${c.email}</td>
+                    <td>${c.telephone}</td>
+                    <td><span style="font-weight: 600; color: #4CAF50;">${c.pointsFidelite} pts</span></td>
+                    <td>${c.abonnement ? '<span class="badge badge-blue">OUI</span>' : '-'}</td>
+                    <td>${c.consentementRGPD ? '<span class="badge badge-green">✓</span>' : '<span class="badge badge-red">✗</span>'}</td>
+                    <td>${formatDate(c.dateInscription)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function updateClientKPIs() {
+            document.getElementById('total-clients').textContent = CLIENTS.length;
+            document.getElementById('abonnes').textContent = CLIENTS.filter(c => c.abonnement).length;
+            document.getElementById('total-points').textContent = CLIENTS.reduce((sum, c) => sum + c.pointsFidelite, 0);
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function initClientSearch() {
+            const searchInput = document.getElementById('search-client');
+            if (!searchInput) return;
+
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#clients-tbody tr');
+
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(query) ? '' : 'none';
+                });
+            });
+        }
+    </script>
+</body>
+</html>

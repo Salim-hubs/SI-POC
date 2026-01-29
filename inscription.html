@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verger du Coin - Programme Fidélité</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="client-styles.css">
+</head>
+<body class="client-page">
+    <!-- Header Client -->
+    <header class="client-header">
+        <div class="client-header-content">
+            <a href="reservation.html" class="client-logo">
+                <span class="logo-icon">🍎</span>
+                <span class="logo-text">Verger du Coin</span>
+            </a>
+            <nav class="client-nav">
+                <a href="reservation.html">Réserver</a>
+                <a href="abonnements.html">Abonnements</a>
+                <a href="inscription.html" class="active">Fidélité</a>
+            </nav>
+            <a href="index.html" class="btn-admin">Espace Pro</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section inscription-hero">
+        <div class="hero-content">
+            <h1>⭐ Programme Fidélité</h1>
+            <p>Rejoignez notre communauté et profitez d'avantages exclusifs sur vos achats au Verger du Coin.</p>
+        </div>
+        <div class="hero-badges">
+            <span class="hero-badge">🎁 10€ offerts à l'inscription</span>
+            <span class="hero-badge">💫 1€ = 1 point</span>
+            <span class="hero-badge">🎂 Cadeau anniversaire</span>
+        </div>
+    </section>
+
+    <!-- Inscription Section -->
+    <section class="inscription-section">
+        <div class="inscription-card">
+            <h2>Rejoignez le club !</h2>
+            <p>Inscrivez-vous gratuitement et commencez à cumuler des points dès votre prochaine visite.</p>
+
+            <!-- Benefits Grid -->
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <span>🎁</span>
+                    <span>10€ offerts à l'inscription</span>
+                </div>
+                <div class="benefit-item">
+                    <span>💫</span>
+                    <span>1€ dépensé = 1 point</span>
+                </div>
+                <div class="benefit-item">
+                    <span>🎂</span>
+                    <span>Surprise pour votre anniversaire</span>
+                </div>
+                <div class="benefit-item">
+                    <span>📰</span>
+                    <span>Offres exclusives par email</span>
+                </div>
+                <div class="benefit-item">
+                    <span>🏷️</span>
+                    <span>Réductions membres</span>
+                </div>
+                <div class="benefit-item">
+                    <span>⭐</span>
+                    <span>Ventes privées</span>
+                </div>
+            </div>
+
+            <!-- Inscription Form -->
+            <form id="inscription-form" onsubmit="submitInscription(event)">
+                <h4 class="form-section-title">👤 Vos informations</h4>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Prénom *</label>
+                        <input type="text" class="form-input" id="fid-prenom" required placeholder="Jean">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nom *</label>
+                        <input type="text" class="form-input" id="fid-nom" required placeholder="Dupont">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email *</label>
+                    <input type="email" class="form-input" id="fid-email" required placeholder="jean.dupont@email.fr">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Téléphone *</label>
+                    <input type="tel" class="form-input" id="fid-tel" required placeholder="06 XX XX XX XX">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Date de naissance (pour votre cadeau anniversaire)</label>
+                    <input type="date" class="form-input" id="fid-birthday">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Adresse (optionnel)</label>
+                    <input type="text" class="form-input" id="fid-adresse" placeholder="123 rue du Verger, 69000 Lyon">
+                </div>
+
+                <h4 class="form-section-title">🛒 Vos préférences</h4>
+
+                <div class="form-group">
+                    <label class="form-label">Où faites-vous habituellement vos achats ?</label>
+                    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
+                        <label class="checkbox-label" style="background: var(--cream); padding: 10px 16px; border-radius: 10px;">
+                            <input type="checkbox" name="canal" value="kiosque">
+                            <span>🏪 Kiosque à la ferme</span>
+                        </label>
+                        <label class="checkbox-label" style="background: var(--cream); padding: 10px 16px; border-radius: 10px;">
+                            <input type="checkbox" name="canal" value="marche-samedi">
+                            <span>🛒 Marché du samedi</span>
+                        </label>
+                        <label class="checkbox-label" style="background: var(--cream); padding: 10px 16px; border-radius: 10px;">
+                            <input type="checkbox" name="canal" value="marche-mercredi">
+                            <span>🛒 Marché du mercredi</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Préférences alimentaires (optionnel)</label>
+                    <textarea class="form-input" id="fid-preferences" rows="2" placeholder="Allergies, régime particulier, produits préférés..."></textarea>
+                </div>
+
+                <h4 class="form-section-title">🔒 Protection de vos données (RGPD)</h4>
+
+                <div style="background: var(--cream); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <p style="font-size: 13px; color: var(--gray-600); line-height: 1.7; margin-bottom: 16px;">
+                        <strong>Responsable du traitement :</strong> Verger du Coin SARL<br>
+                        <strong>Finalité :</strong> Gestion de votre compte fidélité, envoi d'offres personnalisées<br>
+                        <strong>Base légale :</strong> Votre consentement explicite<br>
+                        <strong>Durée de conservation :</strong> Durée de votre inscription + 1 an d'inactivité maximum
+                    </p>
+
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="consent-donnees" required>
+                            <span><strong>J'accepte</strong> que mes données personnelles soient collectées et traitées pour la gestion de mon compte fidélité. *</span>
+                        </label>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="consent-newsletter">
+                            <span>J'accepte de recevoir la <strong>newsletter mensuelle</strong> (recettes, actualités, événements)</span>
+                        </label>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="consent-offres">
+                            <span>J'accepte de recevoir des <strong>offres promotionnelles personnalisées</strong> par email</span>
+                        </label>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="consent-sms">
+                            <span>J'accepte de recevoir des <strong>notifications SMS</strong> (alertes stock, rappels)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div style="background: var(--leaf-light); padding: 16px; border-radius: 12px; margin-bottom: 24px;">
+                    <p style="font-size: 13px; color: var(--forest); line-height: 1.6;">
+                        <strong>Vos droits :</strong> Vous pouvez à tout moment accéder, rectifier ou supprimer vos données, ou retirer votre consentement en nous contactant à <a href="mailto:rgpd@vergerducoin.fr" style="color: var(--forest-dark);">rgpd@vergerducoin.fr</a>
+                    </p>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full" style="padding: 16px;">
+                    ✨ Créer mon compte fidélité
+                </button>
+
+                <p style="text-align: center; font-size: 12px; color: var(--gray-400); margin-top: 16px;">
+                    * Champs obligatoires
+                </p>
+            </form>
+        </div>
+    </section>
+
+    <!-- How Points Work -->
+    <section style="max-width: 900px; margin: 0 auto; padding: 0 40px 80px;">
+        <div style="background: var(--white); border-radius: 24px; padding: 48px; box-shadow: var(--shadow);">
+            <h2 style="font-family: var(--font-display); font-size: 28px; color: var(--forest-dark); text-align: center; margin-bottom: 16px;">Comment ça marche ?</h2>
+            <p style="text-align: center; color: var(--gray-500); margin-bottom: 40px;">Cumulez des points et profitez d'avantages exclusifs</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px;">
+                <div style="text-align: center;">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--honey) 0%, #C4922E 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 36px; color: var(--white);">💫</div>
+                    <h4 style="font-family: var(--font-display); color: var(--forest-dark); margin-bottom: 8px;">Cumulez</h4>
+                    <p style="font-size: 14px; color: var(--gray-500);">1€ dépensé = 1 point<br>Valable kiosque et marchés</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--honey) 0%, #C4922E 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 36px; color: var(--white);">🎁</div>
+                    <h4 style="font-family: var(--font-display); color: var(--forest-dark); margin-bottom: 8px;">Échangez</h4>
+                    <p style="font-size: 14px; color: var(--gray-500);">100 points = 5€ de réduction<br>200 points = 12€ de réduction</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--honey) 0%, #C4922E 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 36px; color: var(--white);">🏆</div>
+                    <h4 style="font-family: var(--font-display); color: var(--forest-dark); margin-bottom: 8px;">Progressez</h4>
+                    <p style="font-size: 14px; color: var(--gray-500);">Statut Gold à 500 points<br>Points x2 sur tous vos achats</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; padding: 24px; background: linear-gradient(135deg, var(--forest) 0%, var(--forest-dark) 100%); border-radius: 16px; text-align: center;">
+                <p style="color: var(--white); font-size: 18px; font-weight: 500;">
+                    🎉 Bonus inscription : <strong>10€ offerts</strong> dès 20€ d'achat !
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal-content" style="text-align: center; max-width: 450px;">
+            <div class="confirmation-success">
+                <div class="success-icon">⭐</div>
+                <h3 style="color: var(--forest) !important;">Bienvenue dans le club !</h3>
+                <p>Votre compte fidélité a été créé avec succès.</p>
+            </div>
+
+            <div style="background: var(--honey-glow); padding: 20px; border-radius: 16px; margin: 24px 0;">
+                <p style="font-size: 14px; color: var(--bark); margin-bottom: 8px;">Votre bonus de bienvenue</p>
+                <p style="font-size: 32px; font-weight: 700; color: var(--forest); font-family: var(--font-display);">10€ offerts</p>
+                <p style="font-size: 13px; color: var(--gray-500);">Utilisable dès 20€ d'achat</p>
+            </div>
+
+            <div style="background: var(--cream); padding: 16px; border-radius: 12px; margin-bottom: 24px; text-align: left;">
+                <p style="font-size: 14px; color: var(--gray-600); line-height: 1.6;">
+                    📧 Un email de confirmation a été envoyé à <strong id="confirm-email">votre adresse</strong><br>
+                    💳 Présentez votre email ou téléphone lors de vos achats pour cumuler vos points !
+                </p>
+            </div>
+
+            <button class="btn btn-primary btn-full" onclick="closeSuccessModal()">C'est parti !</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="client-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>🍎 Verger du Coin</h4>
+                <p>Exploitation familiale depuis 1985<br>Agriculture raisonnée</p>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📍 Chemin du Verger, 69000 Lyon</p>
+                <p>📞 04 XX XX XX XX</p>
+                <p>✉️ contact@vergerducoin.fr</p>
+            </div>
+            <div class="footer-section">
+                <h4>Données personnelles</h4>
+                <p>✉️ rgpd@vergerducoin.fr</p>
+                <p><a href="#" style="color: rgba(255,255,255,0.7);">Politique de confidentialité</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Verger du Coin - <a href="#">Mentions légales</a> - <a href="#">Politique de confidentialité</a> - <a href="#">Gestion des cookies</a></p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        function submitInscription(event) {
+            event.preventDefault();
+
+            // Validate required fields
+            const prenom = document.getElementById('fid-prenom').value;
+            const nom = document.getElementById('fid-nom').value;
+            const email = document.getElementById('fid-email').value;
+            const tel = document.getElementById('fid-tel').value;
+            const consentDonnees = document.getElementById('consent-donnees').checked;
+
+            if (!prenom || !nom || !email || !tel) {
+                alert('Veuillez remplir tous les champs obligatoires');
+                return;
+            }
+
+            if (!consentDonnees) {
+                alert('Veuillez accepter le traitement de vos données personnelles');
+                return;
+            }
+
+            // Ajouter le nouveau client à la base de données
+            const newClient = {
+                id: CLIENTS.length > 0 ? Math.max(...CLIENTS.map(c => c.id)) + 1 : 1,
+                nom: nom,
+                prenom: prenom,
+                email: email,
+                telephone: tel,
+                pointsFidelite: 100, // Bonus de bienvenue (10€ = 100 points)
+                abonnement: false,
+                consentementRGPD: true,
+                dateInscription: new Date().toISOString().split('T')[0]
+            };
+
+            CLIENTS.push(newClient);
+            saveAllData(); // Sauvegarder dans localStorage
+
+            console.log('Nouveau client ajouté:', newClient);
+
+            // Show success modal
+            document.getElementById('confirm-email').textContent = email;
+            document.getElementById('success-modal').classList.add('active');
+
+            // Reset form
+            document.getElementById('inscription-form').reset();
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('success-modal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

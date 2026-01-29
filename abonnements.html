@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verger du Coin - Paniers Abonnement</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="client-styles.css">
+</head>
+<body class="client-page">
+    <!-- Header Client -->
+    <header class="client-header">
+        <div class="client-header-content">
+            <a href="reservation.html" class="client-logo">
+                <span class="logo-icon">🍎</span>
+                <span class="logo-text">Verger du Coin</span>
+            </a>
+            <nav class="client-nav">
+                <a href="reservation.html">Réserver</a>
+                <a href="abonnements.html" class="active">Abonnements</a>
+                <a href="inscription.html">Fidélité</a>
+            </nav>
+            <a href="index.html" class="btn-admin">Espace Pro</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section subscription-hero">
+        <div class="hero-content">
+            <h1>🧺 Paniers Abonnement</h1>
+            <p>Recevez chaque semaine un panier de fruits et légumes frais, directement de notre ferme à votre table.</p>
+        </div>
+        <div class="hero-badges">
+            <span class="hero-badge">🔄 Sans engagement</span>
+            <span class="hero-badge">💰 Économisez 15%</span>
+            <span class="hero-badge">🎁 Surprises saisonnières</span>
+        </div>
+    </section>
+
+    <!-- Plans Section -->
+    <section class="plans-section">
+        <h2>Choisissez votre formule</h2>
+        <p class="section-subtitle">Adaptée à vos besoins, flexible et sans engagement</p>
+
+        <div class="plans-grid">
+            <!-- Plan Solo -->
+            <div class="plan-card">
+                <div class="plan-icon">🥗</div>
+                <h3>Panier Solo</h3>
+                <p class="plan-description">Idéal pour 1 personne</p>
+                <div class="plan-price">
+                    <span class="amount">12€</span>
+                    <span class="period">/ semaine</span>
+                </div>
+                <ul class="plan-features">
+                    <li>2-3 kg de fruits</li>
+                    <li>2-3 kg de légumes</li>
+                    <li>Produits 100% de saison</li>
+                    <li>Recette de la semaine incluse</li>
+                    <li>Retrait au kiosque ou marché</li>
+                </ul>
+                <button class="btn btn-secondary btn-full" onclick="openSubscriptionModal('solo', 12)">
+                    Choisir ce panier
+                </button>
+            </div>
+
+            <!-- Plan Famille - populaire -->
+            <div class="plan-card popular">
+                <span class="popular-badge">⭐ Le plus populaire</span>
+                <div class="plan-icon">👨‍👩‍👧‍👦</div>
+                <h3>Panier Famille</h3>
+                <p class="plan-description">Parfait pour 3-4 personnes</p>
+                <div class="plan-price">
+                    <span class="amount">25€</span>
+                    <span class="period">/ semaine</span>
+                </div>
+                <ul class="plan-features">
+                    <li>4-5 kg de fruits</li>
+                    <li>5-6 kg de légumes</li>
+                    <li>Produits 100% de saison</li>
+                    <li>Recette de la semaine incluse</li>
+                    <li>1 produit surprise par mois</li>
+                    <li>Retrait au kiosque ou marché</li>
+                </ul>
+                <button class="btn btn-primary btn-full" onclick="openSubscriptionModal('famille', 25)">
+                    Choisir ce panier
+                </button>
+            </div>
+
+            <!-- Plan 3 le gourmand -->
+            <div class="plan-card">
+                <div class="plan-icon">🍇</div>
+                <h3>Panier Gourmand</h3>
+                <p class="plan-description">Pour les grandes familles</p>
+                <div class="plan-price">
+                    <span class="amount">38€</span>
+                    <span class="period">/ semaine</span>
+                </div>
+                <ul class="plan-features">
+                    <li>6-8 kg de fruits</li>
+                    <li>8-10 kg de légumes</li>
+                    <li>Produits 100% de saison</li>
+                    <li>Recette de la semaine incluse</li>
+                    <li>Produits transformés inclus</li>
+                    <li>Livraison possible (+5€)</li>
+                </ul>
+                <button class="btn btn-secondary btn-full" onclick="openSubscriptionModal('gourmand', 38)">
+                    Choisir ce panier
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commment ça fonctionne  -->
+    <section style="max-width: 1200px; margin: 0 auto; padding: 0 40px 80px;">
+        <div style="background: var(--white); border-radius: 24px; padding: 48px; box-shadow: var(--shadow);">
+            <h2 style="font-family: var(--font-display); font-size: 28px; color: var(--forest-dark); text-align: center; margin-bottom: 48px;">Comment ça marche ?</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; text-align: center;">
+                <div>
+                    <div style="width: 80px; height: 80px; background: var(--leaf-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 36px;">1</div>
+                    <h4 style="font-family: var(--font-display); color: var(--forest-dark); margin-bottom: 8px;">Choisissez</h4>
+                    <p style="font-size: 14px; color: var(--gray-500);">Sélectionnez la formule adaptée à vos besoins</p>
+                </div>
+                <div>
+                    <div style="width: 80px; height: 80px; background: var(--leaf-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 36px;">2</div>
+                    <h4 style="font-family: var(--font-display); color: var(--forest-dark); margin-bottom: 8px;">Nous préparons</h4>
+                    <p style="font-size: 14px; color: var(--gray-500);">Chaque semaine, nous composons votre panier avec les meilleurs produits</p>
+                </div>
+                <div>
+                    <div style="width: 80px; height: 80px; background: var(--leaf-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 36px;">3</div>
+                    <h4 style="font-family: var(--font-display); color: var(--forest-dark); margin-bottom: 8px;">Vous retirez</h4>
+                    <p style="font-size: 14px; color: var(--gray-500);">Récupérez votre panier au kiosque ou au marché de votre choix</p>
+                </div>
+                <div>
+                    <div style="width: 80px; height: 80px; background: var(--leaf-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 36px;">4</div>
+                    <h4 style="font-family: var(--font-display); color: var(--forest-dark); margin-bottom: 8px;">Savourez</h4>
+                    <p style="font-size: 14px; color: var(--gray-500);">Profitez de produits frais, locaux et de saison !</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parties questions -->
+    <section style="max-width: 800px; margin: 0 auto; padding: 0 40px 80px;">
+        <h2 style="font-family: var(--font-display); font-size: 28px; color: var(--forest-dark); text-align: center; margin-bottom: 32px;">Questions fréquentes</h2>
+
+        <div id="faq-container">
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Puis-je suspendre mon abonnement ?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Oui, vous pouvez suspendre votre abonnement à tout moment, sans justification. Il suffit de nous prévenir 48h avant le jour de retrait prévu.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Comment puis-je modifier ma formule ?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Vous pouvez changer de formule à tout moment en nous contactant par email ou téléphone. Le changement prendra effet la semaine suivante.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Que contient le panier exactement ?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>La composition varie selon les saisons et les récoltes. Vous recevrez un email chaque semaine avec le contenu de votre panier. Nous privilégions la variété et la fraîcheur.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Puis-je signaler des allergies ou préférences ?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Absolument ! Lors de votre inscription, vous pouvez indiquer vos allergies et préférences. Nous ferons notre possible pour adapter votre panier.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span>Comment se fait le paiement ?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Le paiement se fait sur place lors du retrait de votre panier (CB, espèces ou chèque). Pour le prélèvement automatique, contactez-nous.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscription Modal -->
+    <div class="modal-overlay" id="subscription-modal">
+        <div class="modal-content checkout-modal">
+            <button class="modal-close" onclick="closeSubscriptionModal()">&times;</button>
+
+            <div class="checkout-steps">
+                <div class="step active" data-step="1">
+                    <span class="step-number">1</span>
+                    <span class="step-label">Retrait</span>
+                </div>
+                <div class="step" data-step="2">
+                    <span class="step-number">2</span>
+                    <span class="step-label">Coordonnées</span>
+                </div>
+                <div class="step" data-step="3">
+                    <span class="step-number">3</span>
+                    <span class="step-label">Confirmation</span>
+                </div>
+            </div>
+
+            <!-- Step 1: Pickup & Preferences -->
+            <div class="checkout-step-content" id="sub-step-1">
+                <h3>Panier <span id="plan-name">Famille</span> - <span id="plan-price">25€</span>/semaine</h3>
+
+                <div class="form-group">
+                    <label class="form-label">Lieu de retrait</label>
+                    <div class="pickup-options">
+                        <label class="pickup-option">
+                            <input type="radio" name="sub-pickup" value="kiosque" checked>
+                            <div class="pickup-card">
+                                <span class="pickup-icon">🏪</span>
+                                <div class="pickup-info">
+                                    <strong>Kiosque à la ferme</strong>
+                                    <span class="pickup-hours">Lun-Sam : 9h-18h</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="pickup-option">
+                            <input type="radio" name="sub-pickup" value="marche-samedi">
+                            <div class="pickup-card">
+                                <span class="pickup-icon">🛒</span>
+                                <div class="pickup-info">
+                                    <strong>Marché du Samedi</strong>
+                                    <span class="pickup-hours">Samedi : 7h-13h</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Jour de retrait préféré</label>
+                    <select class="form-select" id="sub-day">
+                        <option value="samedi">Samedi</option>
+                        <option value="mercredi">Mercredi</option>
+                        <option value="vendredi">Vendredi</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Préférences / Allergies (optionnel)</label>
+                    <textarea class="form-input" id="sub-preferences" rows="2" placeholder="Ex: Sans tomates, allergie aux noix..."></textarea>
+                </div>
+
+                <div class="checkout-actions">
+                    <button class="btn btn-primary" onclick="goToSubStep(2)">Continuer</button>
+                </div>
+            </div>
+
+            <!-- étape 2: info contact -->
+            <div class="checkout-step-content" id="sub-step-2" style="display: none;">
+                <h3>Vos coordonnées</h3>
+
+                <form id="sub-contact-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Prénom *</label>
+                            <input type="text" class="form-input" id="sub-prenom" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nom *</label>
+                            <input type="text" class="form-input" id="sub-nom" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input type="email" class="form-input" id="sub-email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Téléphone *</label>
+                        <input type="tel" class="form-input" id="sub-tel" placeholder="06 XX XX XX XX" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Date de début souhaitée</label>
+                        <input type="date" class="form-input" id="sub-start-date">
+                    </div>
+
+                    <div class="rgpd-consent">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="sub-rgpd-consent" required>
+                            <span>J'accepte que mes données soient utilisées pour la gestion de mon abonnement et les communications associées.</span>
+                        </label>
+                    </div>
+                    <div class="rgpd-consent" style="margin-top: 12px;">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="sub-newsletter">
+                            <span>Je souhaite recevoir la newsletter mensuelle (recettes, actualités du verger)</span>
+                        </label>
+                    </div>
+                </form>
+
+                <div class="checkout-actions">
+                    <button class="btn btn-secondary" onclick="goToSubStep(1)">Retour</button>
+                    <button class="btn btn-primary" onclick="goToSubStep(3)">Confirmer</button>
+                </div>
+            </div>
+
+            <!-- étape 3: Confirmation -->
+            <div class="checkout-step-content" id="sub-step-3" style="display: none;">
+                <div class="confirmation-success">
+                    <div class="success-icon">✓</div>
+                    <h3>Inscription confirmée !</h3>
+                    <p>Bienvenue dans la communauté Verger du Coin !</p>
+                </div>
+
+                <div class="confirmation-details">
+                    <div class="detail-card">
+                        <span class="detail-icon">🧺</span>
+                        <div>
+                            <strong>Formule</strong>
+                            <span id="confirm-plan">Panier Famille</span>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <span class="detail-icon">📍</span>
+                        <div>
+                            <strong>Retrait</strong>
+                            <span id="confirm-sub-pickup">Kiosque - Samedi</span>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <span class="detail-icon">📅</span>
+                        <div>
+                            <strong>Premier panier</strong>
+                            <span id="confirm-start">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="confirmation-notice">
+                    <p>📧 Un email de confirmation vous a été envoyé avec tous les détails.</p>
+                    <p>📞 Nous vous contacterons pour finaliser votre inscription.</p>
+                </div>
+
+                <div class="checkout-actions">
+                    <button class="btn btn-primary" onclick="finishSubscription()">Terminer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="client-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>🍎 Verger du Coin</h4>
+                <p>Exploitation familiale depuis 1985<br>Agriculture raisonnée</p>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📍 Chemin du Verger, 69000 Lyon</p>
+                <p>📞 04 XX XX XX XX</p>
+                <p>✉️ contact@vergerducoin.fr</p>
+            </div>
+            <div class="footer-section">
+                <h4>Horaires Kiosque</h4>
+                <p>Lundi - Samedi : 9h - 18h</p>
+                <p>Dimanche : Fermé</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Verger du Coin - <a href="#">Mentions légales</a> - <a href="#">Politique de confidentialité</a></p>
+        </div>
+    </footer>
+
+    <style>
+        /* FAQ Styles (partie css : la en vrai on se casse pas la tête on mets comme les autres pages) */
+        .faq-item {
+            background: var(--white);
+            border-radius: 16px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--gray-800);
+            text-align: left;
+            font-family: var(--font-body);
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            background: var(--cream);
+        }
+
+        .faq-icon {
+            font-size: 24px;
+            color: var(--forest);
+            transition: var(--transition);
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+        }
+
+        .faq-answer p {
+            padding: 0 24px 20px;
+            font-size: 14px;
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+    </style>
+
+    <script>
+        let selectedPlan = { name: '', price: 0 };
+
+        function openSubscriptionModal(plan, price) {
+            const planNames = {
+                'solo': 'Solo',
+                'famille': 'Famille',
+                'gourmand': 'Gourmand'
+            };
+
+            selectedPlan = { name: planNames[plan], price: price };
+            document.getElementById('plan-name').textContent = planNames[plan];
+            document.getElementById('plan-price').textContent = price + '€';
+
+            document.getElementById('subscription-modal').classList.add('active');
+            goToSubStep(1);
+
+            // Set min date
+            const nextWeek = new Date();
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            document.getElementById('sub-start-date').setAttribute('min', nextWeek.toISOString().split('T')[0]);
+            document.getElementById('sub-start-date').value = nextWeek.toISOString().split('T')[0];
+        }
+
+        function closeSubscriptionModal() {
+            document.getElementById('subscription-modal').classList.remove('active');
+        }
+
+        function goToSubStep(step) {
+            if (step === 3) {
+                const prenom = document.getElementById('sub-prenom').value;
+                const nom = document.getElementById('sub-nom').value;
+                const email = document.getElementById('sub-email').value;
+                const tel = document.getElementById('sub-tel').value;
+                const consent = document.getElementById('sub-rgpd-consent').checked;
+
+                if (!prenom || !nom || !email || !tel) {
+                    alert('Veuillez remplir tous les champs obligatoires');
+                    return;
+                }
+                if (!consent) {
+                    alert('Veuillez accepter les conditions');
+                    return;
+                }
+
+                //Generer une confirmation
+                document.getElementById('confirm-plan').textContent = `Panier ${selectedPlan.name} - ${selectedPlan.price}€/semaine`;
+
+                const pickupOption = document.querySelector('input[name="sub-pickup"]:checked');
+                const pickupLabel = pickupOption.parentElement.querySelector('strong').textContent;
+                const day = document.getElementById('sub-day').value;
+                document.getElementById('confirm-sub-pickup').textContent = `${pickupLabel} - ${day.charAt(0).toUpperCase() + day.slice(1)}`;
+
+                const startDate = new Date(document.getElementById('sub-start-date').value);
+                document.getElementById('confirm-start').textContent = startDate.toLocaleDateString('fr-FR', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long'
+                });
+            }
+
+            document.querySelectorAll('[id^="sub-step-"]').forEach(el => el.style.display = 'none');
+            document.getElementById(`sub-step-${step}`).style.display = 'block';
+
+            document.querySelectorAll('.checkout-steps .step').forEach(el => {
+                el.classList.remove('active', 'completed');
+                const stepNum = parseInt(el.dataset.step);
+                if (stepNum < step) el.classList.add('completed');
+                if (stepNum === step) el.classList.add('active');
+            });
+        }
+
+        function finishSubscription() {
+            closeSubscriptionModal();
+
+            const notification = document.createElement('div');
+            notification.className = 'notification success';
+            notification.textContent = 'Bienvenue ! Votre abonnement a été enregistré.';
+            document.body.appendChild(notification);
+
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        function toggleFaq(button) {
+            const faqItem = button.parentElement;
+            faqItem.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

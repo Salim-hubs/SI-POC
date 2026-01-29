@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verger du Coin - Nouvelle Vente</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">🍎</span>
+                <span class="logo-text">Verger du Coin</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="vente.html"><span class="nav-icon">🛒</span> Nouvelle Vente</a>
+                </li>
+                <li class="nav-item">
+                    <a href="commandes.html"><span class="nav-icon">📋</span> Commandes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="stocks.html"><span class="nav-icon">📦</span> Stocks</a>
+                </li>
+                <li class="nav-item">
+                    <a href="clients.html"><span class="nav-icon">👥</span> Clients</a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html"><span class="nav-icon">📊</span> Statistiques</a>
+                </li>
+            </ul>
+            <div style="padding: 20px; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1);">
+                <a href="reservation.html" class="btn btn-secondary btn-full" style="font-size: 12px; background: rgba(255,255,255,0.1); border: none; color: white;">
+                    🌐 Site Client
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Saisir une nouvelle vente</h1>
+            </header>
+
+            <!-- Sale Form -->
+            <section class="form-card">
+                <form id="vente-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="canal">Canal de vente</label>
+                            <select class="form-select" id="canal" required>
+                                <option value="">-- Sélectionner --</option>
+                                <option value="kiosque">🏪 Kiosque</option>
+                                <option value="marché">🛒 Marché</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="paiement">Mode de paiement</label>
+                            <select class="form-select" id="paiement" required>
+                                <option value="">-- Sélectionner --</option>
+                                <option value="Espèces">💵 Espèces</option>
+                                <option value="CB">💳 Carte bancaire</option>
+                                <option value="Chèque">📝 Chèque</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="produit">Produit</label>
+                        <select class="form-select" id="produit" required>
+                            <option value="">-- Sélectionner un produit --</option>
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="quantite">Quantité</label>
+                            <input type="number" class="form-input" id="quantite" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="prix">Prix unitaire (€)</label>
+                            <input type="number" class="form-input" id="prix" step="0.01" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Total Display -->
+                    <div class="total-display" style="background: #E8F5E9; padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
+                        <span style="font-size: 14px; color: #666;">Total de la vente</span>
+                        <div style="font-size: 32px; font-weight: 700; color: #4CAF50;">
+                            €<span id="total-vente">0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">
+                            ✓ Enregistrer la vente
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            Annuler
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Info Box -->
+            <section style="margin-top: 24px; padding: 20px; background: #FFF3E0; border-radius: 12px; border-left: 4px solid #FF9800;">
+                <h3 style="margin-bottom: 10px; color: #E65100;">💡 Comment ça marche ?</h3>
+                <p style="font-size: 14px; color: #666; line-height: 1.8;">
+                    <strong>1.</strong> Sélectionnez le canal de vente (Kiosque ou Marché)<br>
+                    <strong>2.</strong> Choisissez le produit - le prix s'affiche automatiquement<br>
+                    <strong>3.</strong> Indiquez la quantité vendue<br>
+                    <strong>4.</strong> Cliquez sur "Enregistrer" → Le stock est mis à jour automatiquement !
+                </p>
+                <p style="font-size: 13px; color: #FF9800; margin-top: 12px;">
+                    ⚠️ Une alerte s'affichera si le stock passe en dessous du seuil critique.
+                </p>
+            </section>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initVenteForm();
+        });
+    </script>
+</body>
+</html>

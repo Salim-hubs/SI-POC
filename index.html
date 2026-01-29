@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verger du Coin - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">🍎</span>
+                <span class="logo-text">Verger du Coin</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="index.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+                </li>
+                <li class="nav-item">
+                    <a href="vente.html"><span class="nav-icon">🛒</span> Nouvelle Vente</a>
+                </li>
+                <li class="nav-item">
+                    <a href="commandes.html"><span class="nav-icon">📋</span> Commandes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="stocks.html"><span class="nav-icon">📦</span> Stocks</a>
+                </li>
+                <li class="nav-item">
+                    <a href="clients.html"><span class="nav-icon">👥</span> Clients</a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html"><span class="nav-icon">📊</span> Statistiques</a>
+                </li>
+            </ul>
+            <div style="padding: 20px; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1);">
+                <a href="reservation.html" class="btn btn-secondary btn-full" style="font-size: 12px; background: rgba(255,255,255,0.1); border: none; color: white;">
+                    🌐 Site Client
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Tableau de bord</h1>
+                <div class="header-actions">
+                    <input type="text" class="search-input" placeholder="Recherche client...">
+                    <a href="vente.html" class="btn btn-primary">+ Nouvelle vente</a>
+                </div>
+            </header>
+
+            <!-- KPI Cards -->
+            <section class="kpi-section">
+                <div class="kpi-card kpi-green">
+                    <div class="kpi-icon">💰</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="ca-today">€415,50</span>
+                        <span class="kpi-label">CA Aujourd'hui</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-blue">
+                    <div class="kpi-icon">📋</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="orders-pending">8</span>
+                        <span class="kpi-label">Commandes à préparer</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-orange">
+                    <div class="kpi-icon">⚠️</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="low-stock">5</span>
+                        <span class="kpi-label">Alertes stock</span>
+                    </div>
+                </div>
+                <div class="kpi-card" style="background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);">
+                    <div class="kpi-icon" style="filter: grayscale(1) brightness(10);">🔄</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" style="color: white;">12</span>
+                        <span class="kpi-label" style="color: rgba(255,255,255,0.8);">Abonnés paniers</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts and Stock Section -->
+            <section class="charts-section">
+                <div class="chart-card">
+                    <h3>📈 Ventes de la semaine</h3>
+                    <canvas id="salesChart"></canvas>
+                </div>
+                <div class="stock-card">
+                    <h3>📦 Statut des stocks</h3>
+                    <div class="stock-summary">
+                        <div class="stock-total">
+                            <span class="stock-number" id="total-stock">332</span>
+                            <span class="stock-label">Produits en stock</span>
+                        </div>
+                    </div>
+                    <h4>⚠️ Alertes stock</h4>
+                    <ul class="stock-alerts" id="stock-alerts">
+                        <!-- Populated avec JavaScript -->
+                    </ul>
+                    <a href="stocks.html" class="btn btn-secondary btn-full" style="margin-top: 16px;">Voir tous les stocks</a>
+                </div>
+            </section>
+
+            <!-- Orders Table -->
+            <section class="orders-section">
+                <div class="orders-table-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h3 style="margin: 0;">📋 Commandes récentes</h3>
+                        <a href="commandes.html" style="font-size: 13px; color: var(--forest); text-decoration: none;">Voir tout →</a>
+                    </div>
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>N°</th>
+                                <th>Client</th>
+                                <th>Date</th>
+                                <th>Produits</th>
+                                <th>Total</th>
+                                <th>Type</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-tbody">
+                            <tr class="order-row" data-client="martin">
+                                <td><strong>#1042</strong></td>
+                                <td>Marie Durant</td>
+                                <td>Aujourd'hui</td>
+                                <td>Pommes, Poires, Salade</td>
+                                <td><strong>€15,30</strong></td>
+                                <td><span class="badge badge-green">Click&Collect</span></td>
+                                <td><span class="badge badge-orange">À préparer</span></td>
+                            </tr>
+                            <tr class="order-row" data-client="lefebvre">
+                                <td><strong>#1041</strong></td>
+                                <td>Sophie Lefebvre</td>
+                                <td>Aujourd'hui</td>
+                                <td>Panier fruits, Confiture</td>
+                                <td><strong>€21,50</strong></td>
+                                <td><span class="badge badge-green">Click&Collect</span></td>
+                                <td><span class="badge badge-orange">À préparer</span></td>
+                            </tr>
+                            <tr class="order-row" data-client="durant">
+                                <td><strong>#1040</strong></td>
+                                <td>Christophe Martin</td>
+                                <td>Aujourd'hui</td>
+                                <td>Pommes, Tomates</td>
+                                <td><strong>€19,50</strong></td>
+                                <td><span class="badge badge-blue">Abonnement</span></td>
+                                <td><span class="badge badge-green">Prêt</span></td>
+                            </tr>
+                            <tr class="order-row" data-client="dupont">
+                                <td><strong>#1039</strong></td>
+                                <td>Paul Dupont</td>
+                                <td>Hier</td>
+                                <td>Jus de pomme x3</td>
+                                <td><strong>€13,50</strong></td>
+                                <td><span class="badge badge-green">Click&Collect</span></td>
+                                <td><span class="badge badge-blue">Prêt</span></td>
+                            </tr>
+                            <tr class="order-row" data-client="robert">
+                                <td><strong>#1038</strong></td>
+                                <td>Émilie Robert</td>
+                                <td>Hier</td>
+                                <td>Panier légumes</td>
+                                <td><strong>€12,00</strong></td>
+                                <td><span class="badge badge-blue">Abonnement</span></td>
+                                <td><span class="badge badge-blue">Prêt</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Client Panel -->
+                <div class="client-panel" id="client-panel">
+                    <h3>👤 Client sélectionné</h3>
+                    <div class="client-info">
+                        <div class="client-name" id="client-name">Marie Durant</div>
+                        <div class="client-detail"><span>📞</span> 06 78 90 12 34</div>
+                        <div class="client-detail"><span>✉️</span> marie.durant@email.fr</div>
+                        <div class="client-detail"><span>⭐</span> <strong>220 points fidélité</strong></div>
+                        <div class="client-detail"><span>🔄</span> Abonnée Panier Famille</div>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-top: 16px;">
+                        <a href="clients.html" class="btn btn-secondary" style="flex: 1;">Fiche client</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Persistence Status Bar -->
+            <section id="persistence-status" style="margin-top: 24px; padding: 16px 24px; background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #2196F3;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 24px;">💾</span>
+                    <div>
+                        <strong style="color: #1565C0;">Persistance des données activée</strong>
+                        <p style="font-size: 12px; color: #666; margin: 2px 0 0 0;" id="last-save-time">Les données sont sauvegardées automatiquement</p>
+                    </div>
+                </div>
+                <button onclick="resetAllData()" class="btn btn-secondary" style="background: #FF5722; color: white; border: none; font-size: 12px; padding: 8px 16px;">
+                    🔄 Réinitialiser les données
+                </button>
+            </section>
+
+            <!-- POC Info Box -->
+            <section style="margin-top: 24px; padding: 24px; background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); border-radius: 16px; border-left: 4px solid #4CAF50;">
+                <h3 style="margin-bottom: 12px; color: #2E7D32; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 24px;">✨</span> Système d'Information Unifié - POC
+                </h3>
+                <p style="font-size: 14px; color: #555; line-height: 1.7; margin-bottom: 16px;">
+                    Ce prototype démontre la <strong>centralisation des données</strong> et l'<strong>automatisation des flux</strong> :
+                    une vente saisie une seule fois met à jour automatiquement le stock et alimente le tableau de bord.
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                    <div style="background: white; padding: 16px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 28px; margin-bottom: 8px;">1️⃣</div>
+                        <strong style="color: #2E7D32;">Saisie unique</strong>
+                        <p style="font-size: 12px; color: #666; margin-top: 4px;">Fini les doubles saisies POS → Excel</p>
+                    </div>
+                    <div style="background: white; padding: 16px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 28px; margin-bottom: 8px;">📦</div>
+                        <strong style="color: #2E7D32;">Stock temps réel</strong>
+                        <p style="font-size: 12px; color: #666; margin-top: 4px;">Mise à jour automatique à chaque vente</p>
+                    </div>
+                    <div style="background: white; padding: 16px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 28px; margin-bottom: 8px;">📊</div>
+                        <strong style="color: #2E7D32;">Pilotage instantané</strong>
+                        <p style="font-size: 12px; color: #666; margin-top: 4px;">KPIs et alertes sans effort</p>
+                    </div>
+                    <div style="background: white; padding: 16px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 28px; margin-bottom: 8px;">🔒</div>
+                        <strong style="color: #2E7D32;">RGPD compliant</strong>
+                        <p style="font-size: 12px; color: #666; margin-top: 4px;">Consentements et droits respectés</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Afficher le statut de persistance
+        document.addEventListener('DOMContentLoaded', function() {
+            const lastSaveEl = document.getElementById('last-save-time');
+            if (lastSaveEl) {
+                try {
+                    const stored = localStorage.getItem('verger_du_coin_data');
+                    if (stored) {
+                        const data = JSON.parse(stored);
+                        if (data.savedAt) {
+                            const date = new Date(data.savedAt);
+                            lastSaveEl.textContent = 'Dernière sauvegarde : ' + date.toLocaleString('fr-FR');
+                        }
+                    }
+                } catch(e) {}
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verger du Coin - Gestion des Stocks</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">🍎</span>
+                <span class="logo-text">Verger du Coin</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+                </li>
+                <li class="nav-item">
+                    <a href="vente.html"><span class="nav-icon">🛒</span> Nouvelle Vente</a>
+                </li>
+                <li class="nav-item">
+                    <a href="commandes.html"><span class="nav-icon">📋</span> Commandes</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="stocks.html"><span class="nav-icon">📦</span> Stocks</a>
+                </li>
+                <li class="nav-item">
+                    <a href="clients.html"><span class="nav-icon">👥</span> Clients</a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html"><span class="nav-icon">📊</span> Statistiques</a>
+                </li>
+            </ul>
+            <div style="padding: 20px; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1);">
+                <a href="reservation.html" class="btn btn-secondary btn-full" style="font-size: 12px; background: rgba(255,255,255,0.1); border: none; color: white;">
+                    🌐 Site Client
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>📦 Gestion des Stocks</h1>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="refreshStockTable()">🔄 Actualiser</button>
+                </div>
+            </header>
+
+            <!-- Stock Summary Cards -->
+            <section class="kpi-section">
+                <div class="kpi-card kpi-green">
+                    <div class="kpi-icon">📦</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="total-produits">12</span>
+                        <span class="kpi-label">Produits référencés</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-blue">
+                    <div class="kpi-icon">✅</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="stock-ok">7</span>
+                        <span class="kpi-label">Stocks OK</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-orange">
+                    <div class="kpi-icon">⚠️</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="stock-alerte">5</span>
+                        <span class="kpi-label">En alerte</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Legend -->
+            <section style="margin-bottom: 20px; display: flex; gap: 20px; font-size: 13px;">
+                <span><span class="stock-status ok" style="margin-right: 6px;">OK</span> Stock suffisant</span>
+                <span><span class="stock-status low" style="margin-right: 6px;">Bas</span> Sous le seuil critique</span>
+                <span><span class="stock-status critical" style="margin-right: 6px;">Critique</span> Stock très bas</span>
+            </section>
+
+            <!-- Stock Table -->
+            <section class="stock-table-container">
+                <table class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Catégorie</th>
+                            <th>Stock actuel</th>
+                            <th>Seuil critique</th>
+                            <th>Statut</th>
+                            <th>Prix unitaire</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stock-tbody">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Info Box -->
+            <section style="margin-top: 24px; padding: 20px; background: #E3F2FD; border-radius: 12px; border-left: 4px solid #2196F3;">
+                <h3 style="margin-bottom: 10px; color: #1565C0;">ℹ️ Fonctionnement du suivi de stock</h3>
+                <p style="font-size: 14px; color: #666; line-height: 1.8;">
+                    Le stock est <strong>automatiquement décrémenté</strong> à chaque vente enregistrée.<br>
+                    Les produits passent en <strong>alerte</strong> dès que le stock descend sous le seuil critique défini.<br>
+                    Ce système élimine les doubles saisies et garantit une visibilité en temps réel.
+                </p>
+                <div style="margin-top: 15px; padding: 12px; background: white; border-radius: 8px;">
+                    <strong style="color: #1565C0;">Principe clé (POC) :</strong>
+                    <span style="font-size: 13px; color: #666;">
+                        Stock = Entrées (récoltes) - Sorties (ventes) - Ajustements (pertes)
+                    </span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initStockTable();
+            updateStockKPIs();
+        });
+
+        function updateStockKPIs() {
+            const produits = PRODUITS.filter(p => p.actif);
+            const alertes = produits.filter(p => p.stock <= p.seuilCritique);
+            const ok = produits.filter(p => p.stock > p.seuilCritique);
+
+            document.getElementById('total-produits').textContent = produits.length;
+            document.getElementById('stock-ok').textContent = ok.length;
+            document.getElementById('stock-alerte').textContent = alertes.length;
+        }
+    </script>
+</body>
+</html>

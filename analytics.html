@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verger du Coin - Statistiques</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar format -->
+        <nav class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">🍎</span>
+                <span class="logo-text">Verger du Coin</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html"><span class="nav-icon">🏠</span> Tableau de bord</a>
+                </li>
+                <li class="nav-item">
+                    <a href="vente.html"><span class="nav-icon">🛒</span> Nouvelle Vente</a>
+                </li>
+                <li class="nav-item">
+                    <a href="commandes.html"><span class="nav-icon">📋</span> Commandes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="stocks.html"><span class="nav-icon">📦</span> Stocks</a>
+                </li>
+                <li class="nav-item">
+                    <a href="clients.html"><span class="nav-icon">👥</span> Clients</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="analytics.html"><span class="nav-icon">📊</span> Statistiques</a>
+                </li>
+            </ul>
+            <div style="padding: 20px; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1);">
+                <a href="reservation.html" class="btn btn-secondary btn-full" style="font-size: 12px; background: rgba(255,255,255,0.1); border: none; color: white;">
+                    🌐 Site Client
+                </a>
+            </div>
+        </nav>
+
+        <!-- Cotenue principal de la page -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>📊 Tableau de bord - Pilotage</h1>
+            </header>
+
+            <!-- CA KPIs -->
+            <section class="kpi-section">
+                <div class="kpi-card kpi-green">
+                    <div class="kpi-icon">📅</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="ca-jour">€415,50</span>
+                        <span class="kpi-label">CA Aujourd'hui</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-blue">
+                    <div class="kpi-icon">📆</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="ca-semaine">€2 850,75</span>
+                        <span class="kpi-label">CA Cette semaine</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-orange">
+                    <div class="kpi-icon">🗓️</div>
+                    <div class="kpi-content">
+                        <span class="kpi-value" id="ca-mois">€12 450,30</span>
+                        <span class="kpi-label">CA Ce mois</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Grid -->
+            <section class="analytics-grid">
+                <!-- Weekly Trend -->
+                <div class="analytics-card">
+                    <h3>📈 Évolution du CA (semaine)</h3>
+                    <canvas id="trendChart"></canvas>
+                </div>
+
+                <!-- Channel Distribution -->
+                <div class="analytics-card">
+                    <h3>🏪 Répartition par canal</h3>
+                    <canvas id="channelChart"></canvas>
+                    <div style="margin-top: 15px; text-align: center; font-size: 13px; color: #666;">
+                        <span style="margin-right: 20px;">🏪 Kiosque: 62%</span>
+                        <span>🛒 Marchés: 38%</span>
+                    </div>
+                </div>
+
+                <!-- les meilleurs produits-->
+                <div class="analytics-card">
+                    <h3>🏆 Top 5 Produits (CA)</h3>
+                    <ul class="top-products-list" id="top-products">
+                        <!-- Will be populated by JavaScript -->
+                    </ul>
+                </div>
+
+                <!-- niveau du stock -->
+                <div class="analytics-card">
+                    <h3>⚠️ Alertes Stock</h3>
+                    <div id="alerts-summary">
+                        <!-- Full Javascript ici -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Info Box -->
+            <section style="margin-top: 24px; padding: 20px; background: #F3E5F5; border-radius: 12px; border-left: 4px solid #9C27B0;">
+                <h3 style="margin-bottom: 10px; color: #7B1FA2;">📊 Indicateurs de succès du POC</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; font-size: 14px;">
+                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                        <strong style="color: #7B1FA2;">Réduction des ressaisies</strong>
+                        <div style="font-size: 24px; font-weight: 700; color: #4CAF50; margin: 8px 0;">1 seule saisie</div>
+                        <span style="font-size: 12px; color: #666;">Au lieu de POS → cahier → Excel</span>
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                        <strong style="color: #7B1FA2;">Fiabilité stock</strong>
+                        <div style="font-size: 24px; font-weight: 700; color: #4CAF50; margin: 8px 0;">&lt; 2%</div>
+                        <span style="font-size: 12px; color: #666;">Taux d'erreur cible (vs ~10% avant)</span>
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                        <strong style="color: #7B1FA2;">Gain de temps admin</strong>
+                        <div style="font-size: 24px; font-weight: 700; color: #4CAF50; margin: 8px 0;">-30% à -50%</div>
+                        <span style="font-size: 12px; color: #666;">Temps de consolidation quotidienne</span>
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                        <strong style="color: #7B1FA2;">Visibilité temps réel</strong>
+                        <div style="font-size: 24px; font-weight: 700; color: #4CAF50; margin: 8px 0;">Instantané</div>
+                        <span style="font-size: 12px; color: #666;">CA et alertes sans compilation manuelle</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initAnalytics();
+            populateAlertsSummary();
+        });
+
+        function populateAlertsSummary() {
+            const container = document.getElementById('alerts-summary');
+            if (!container) return;
+
+            const alertes = getProduitsEnAlerte();
+
+            if (alertes.length === 0) {
+                container.innerHTML = '<p style="color: #4CAF50; text-align: center; padding: 20px;">✓ Tous les stocks sont OK</p>';
+                return;
+            }
+
+            container.innerHTML = alertes.map(p => {
+                const percent = Math.round((p.stock / p.seuilCritique) * 100);
+                const color = percent <= 50 ? '#F44336' : percent <= 75 ? '#FF9800' : '#FFC107';
+                return `
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span style="font-weight: 500;">${p.nom}</span>
+                            <span style="color: ${color}; font-weight: 600;">${p.stock}/${p.seuilCritique} ${p.unite}</span>
+                        </div>
+                        <div style="height: 8px; background: #eee; border-radius: 4px; overflow: hidden;">
+                            <div style="height: 100%; width: ${percent}%; background: ${color}; border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
