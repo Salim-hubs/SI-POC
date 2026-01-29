@@ -26,8 +26,3 @@ Les données sont fictives et utilisées uniquement à des fins pédagogiques.
 ## 🛠️ Technologies
 - [ex: HTML / CSS / JS / React / Node / Firebase / etc.]
 
-## ▶️ Lancer le prototype (optionnel)
-Si nécessaire :
-```bash
-npm install
-npm start
